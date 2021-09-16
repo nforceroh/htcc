@@ -1,6 +1,5 @@
 import os
 import time
-import datetime
 import logging
 import sys
 from pyhtcc import PyHTCC
@@ -14,37 +13,24 @@ INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
 QUERYTIME = os.getenv("QUERYTIME", 300)
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(stream = sys.stdout, 
-                    filemode = "w",
-                    format = Log_Format, 
-                    level = logging.ERROR)
+logging.basicConfig(
+    stream=sys.stdout, filemode="w", format=Log_Format, level=logging.ERROR
+)
 
 logger = logging.getLogger()
-
 logger.setLevel(logging.DEBUG)
-  
-#Test messages
-logger.debug("Harmless debug Message")
-logger.info("Just an information")
-logger.warning("Its a Warning")
-logger.error("Did you try to divide by zero")
-logger.critical("Internet is down")
 
-
-def debug():
-    ts = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
-    print(ts)
 
 def write_to_db(data):
     dbClient = InfluxDBClient(
         INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB
     )
-    debug()
-    print("Write points: {0}".format(data))
+    logger.info("Write points: {0}".format(data))
     dbClient.write_points(data)
 
 
 def query_htcc():
+    logger.info("Connecting to HTCC")
     p = PyHTCC(HTCC_USER, HTCC_PASS)
     zone = p.get_zone_by_name("HOME")
 
@@ -81,5 +67,6 @@ def query_htcc():
 
 if __name__ == "__main__":
     while True:
-        time.sleep(QUERYTIME)
         query_htcc
+        logger.info("Sleeping till next go around")
+        time.sleep(QUERYTIME)
