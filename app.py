@@ -10,7 +10,7 @@ HTCC_PASS = os.getenv("HTCC_PASS")
 INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local")
 INFLUX_DB = os.getenv("INFLUX_DB", "htcc")
 INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
-QUERYTIME = os.getenv("QUERYTIME", 300)
+QUERYTIME = os.getenv("QUERYTIME", "300")
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(
@@ -23,7 +23,7 @@ logger.setLevel(logging.DEBUG)
 
 def write_to_db(data):
     dbClient = InfluxDBClient(
-        INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB
+        INFLUX_HOST, int(INFLUX_PORT), "datainsert", "adddata", INFLUX_DB
     )
     logger.info("Write points: {0}".format(data))
     dbClient.write_points(data)
@@ -69,4 +69,4 @@ if __name__ == "__main__":
     while True:
         query_htcc
         logger.info("Sleeping till next go around")
-        time.sleep(QUERYTIME)
+        time.sleep(int(QUERYTIME))
