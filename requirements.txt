@@ -1,2 +1,2 @@
-PyHTCC
-InfluxDBClient
+pyhtcc
+influxdb
