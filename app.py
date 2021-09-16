@@ -12,6 +12,7 @@ QUERYTIME = os.getenv("QUERYTIME", 300)
 
 def write_to_db(data):
     dbClient = InfluxDBClient(INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB)
+    print("Write points: {0}".format(data))
     dbClient.write_points(data)
 
 def query_htcc():
