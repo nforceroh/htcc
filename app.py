@@ -2,6 +2,7 @@ import os
 import time
 import datetime
 import logging
+import sys
 from pyhtcc import PyHTCC
 from influxdb import InfluxDBClient
 
