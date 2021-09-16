@@ -5,10 +5,9 @@ import sys
 from pyhtcc import PyHTCC
 from influxdb import InfluxDBClient
 
-HTCC_USER = os.getenv("HTCC_USER","andisyl@martintwingles.com")
-HTCC_PASS = os.getenv("HTCC_PASS","Kaykay2634")
-#INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local")
-INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb.ocp.nf.lab")
+HTCC_USER = os.getenv("HTCC_USER")
+HTCC_PASS = os.getenv("HTCC_PASS")
+INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local")
 INFLUX_DB = os.getenv("INFLUX_DB", "htcc")
 INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
 QUERYTIME = os.getenv("QUERYTIME", "300")
