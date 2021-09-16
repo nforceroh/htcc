@@ -1,6 +1,7 @@
 import os
 import time
 import datetime
+import logging
 from pyhtcc import PyHTCC
 from influxdb import InfluxDBClient
 
@@ -10,6 +11,23 @@ INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local
 INFLUX_DB = os.getenv("INFLUX_DB", "htcc")
 INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
 QUERYTIME = os.getenv("QUERYTIME", 300)
+
+Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(stream = sys.stdout, 
+                    filemode = "w",
+                    format = Log_Format, 
+                    level = logging.ERROR)
+
+logger = logging.getLogger()
+
+logger.setLevel(logging.DEBUG)
+  
+#Test messages
+logger.debug("Harmless debug Message")
+logger.info("Just an information")
+logger.warning("Its a Warning")
+logger.error("Did you try to divide by zero")
+logger.critical("Internet is down")
 
 
 def debug():
