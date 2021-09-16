@@ -5,9 +5,10 @@ import sys
 from pyhtcc import PyHTCC
 from influxdb import InfluxDBClient
 
-HTCC_USER = os.getenv("HTCC_USER")
-HTCC_PASS = os.getenv("HTCC_PASS")
-INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local")
+HTCC_USER = os.getenv("HTCC_USER","andisyl@martintwingles.com")
+HTCC_PASS = os.getenv("HTCC_PASS","Kaykay2634")
+#INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb-svc.databases.svc.cluster.local")
+INFLUX_HOST = os.getenv("INFLUX_HOST", "influxdb.ocp.nf.lab")
 INFLUX_DB = os.getenv("INFLUX_DB", "htcc")
 INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
 QUERYTIME = os.getenv("QUERYTIME", "300")
@@ -25,12 +26,12 @@ def write_to_db(data):
     dbClient = InfluxDBClient(
         INFLUX_HOST, int(INFLUX_PORT), "datainsert", "adddata", INFLUX_DB
     )
-    logger.info("Write points: {0}".format(data))
+    logger.debug("Write points: {0}".format(data))
     dbClient.write_points(data)
 
 
 def query_htcc():
-    logger.info("Connecting to HTCC")
+    logger.debug("Connecting to HTCC")
     p = PyHTCC(HTCC_USER, HTCC_PASS)
     zone = p.get_zone_by_name("HOME")
 
@@ -62,11 +63,12 @@ def query_htcc():
         }
     ]
     # pprint(data)
+    logger.debug("Write points: {0}".format(data))
     write_to_db(data)
 
 
 if __name__ == "__main__":
     while True:
-        query_htcc
-        logger.info("Sleeping till next go around")
+        query_htcc()
+        logger.debug("Sleeping till next go around")
         time.sleep(int(QUERYTIME))
