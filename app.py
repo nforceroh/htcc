@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 from pyhtcc import PyHTCC
 from influxdb import InfluxDBClient
 
@@ -10,10 +11,19 @@ INFLUX_DB = os.getenv("INFLUX_DB", "htcc")
 INFLUX_PORT = os.getenv("INFLUX_PORT", "8086")
 QUERYTIME = os.getenv("QUERYTIME", 300)
 
+
+def debug():
+    ts = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
+    print(ts)
+
 def write_to_db(data):
-    dbClient = InfluxDBClient(INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB)
+    dbClient = InfluxDBClient(
+        INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB
+    )
+    debug()
     print("Write points: {0}".format(data))
     dbClient.write_points(data)
+
 
 def query_htcc():
     p = PyHTCC(HTCC_USER, HTCC_PASS)
@@ -48,10 +58,9 @@ def query_htcc():
     ]
     # pprint(data)
     write_to_db(data)
-    
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     while True:
         time.sleep(QUERYTIME)
         query_htcc
-
-
