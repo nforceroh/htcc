@@ -13,7 +13,7 @@ def write_to_db(data):
     dbClient = InfluxDBClient(INFLUX_HOST, INFLUX_PORT, "datainsert", "adddata", INFLUX_DB)
     dbClient.write_points(data)
 
-def query_htcc:
+def query_htcc():
     p = PyHTCC(HTCC_USER, HTCC_PASS)
     zone = p.get_zone_by_name("HOME")
 
