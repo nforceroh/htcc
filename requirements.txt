@@ -1,2 +1,2 @@
 pyhtcc
-influxdb
+paho-mqtt
